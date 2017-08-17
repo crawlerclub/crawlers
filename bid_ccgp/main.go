@@ -87,6 +87,7 @@ func List(searchType string, pageIdCh chan int, recordCh chan string, wg *sync.W
 	defer wg.Done()
 	for i := range pageIdCh {
 		url := fmt.Sprintf(searchUrl1, searchType) + fmt.Sprintf("%d", i) + searchUrl2
+		glog.Info(url)
 		req := &dl.HttpRequest{Url: url, Method: "GET", UseProxy: false, Platform: "pc"}
 		res := dl.Download(req)
 		if res.Error != nil {
