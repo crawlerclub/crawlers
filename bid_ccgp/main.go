@@ -13,8 +13,10 @@ import (
 )
 
 const (
-	searchUrl1 = "http://search.ccgp.gov.cn/%s?searchtype=1&page_index="
-	searchUrl2 = `&bidSort=0&buyerName=&projectId=&pinMu=0&bidType=0&dbselect=bidx&kw=&start_time=2001%3A10%3A10&end_time=2012%3A12%3A31&timeType=6&displayZone=&zoneId=&agentName=`
+	searchUrlOld1 = `http://search.ccgp.gov.cn/oldsearch?searchtype=1&page_index=`
+	searchUrlOld2 = `&bidSort=0&buyerName=&projectId=&pinMu=0&bidType=0&dbselect=bidx&kw=&start_time=2001%3A10%3A10&end_time=2012%3A12%3A31&timeType=6&displayZone=&zoneId=&agentName=`
+	searchUrlBx1  = `http://search.ccgp.gov.cn/bxsearch?searchtype=1&page_index=`
+	searchUrlBx2  = `&bidSort=0&buyerName=&projectId=&pinMu=0&bidType=0&dbselect=bidx&kw=&start_time=2013%3A01%3A01&end_time=2017%3A08%3A17&timeType=6&displayZone=&zoneId=&pppStatus=0&agentName=`
 )
 
 var (
@@ -41,10 +43,6 @@ func main() {
 		glog.Error("thread count must be between 1 and 1000")
 		return
 	}
-	searchType := "oldsearch"
-	if *t == 1 {
-		searchType = "bxsearch"
-	}
 	pageIdCh := make(chan int)
 	recordCh := make(chan string)
 	exitCh := make(chan int)
@@ -53,7 +51,7 @@ func main() {
 	var wg sync.WaitGroup
 	for i := 0; i < *j; i++ {
 		wg.Add(1)
-		go List(searchType, pageIdCh, recordCh, &wg, i)
+		go List(pageIdCh, recordCh, &wg, i)
 	}
 	wg.Wait()
 	close(recordCh)
@@ -81,12 +79,15 @@ func SaveRecord(recordCh chan string, exitCh chan int) {
 	exitCh <- 0
 }
 
-func List(searchType string, pageIdCh chan int, recordCh chan string, wg *sync.WaitGroup, id int) {
+func List(pageIdCh chan int, recordCh chan string, wg *sync.WaitGroup, id int) {
 	glog.Info("start worker ", id)
 	defer glog.Info("finish worker ", id)
 	defer wg.Done()
 	for i := range pageIdCh {
-		url := fmt.Sprintf(searchUrl1, searchType) + fmt.Sprintf("%d", i) + searchUrl2
+		url := searchUrlOld1 + fmt.Sprintf("%d", i) + searchUrlOld2
+		if *t == 1 {
+			url = searchUrlBx1 + fmt.Sprintf("%d", i) + searchUrlBx2
+		}
 		glog.Info(url)
 		req := &dl.HttpRequest{Url: url, Method: "GET", UseProxy: false, Platform: "pc"}
 		res := dl.Download(req)
