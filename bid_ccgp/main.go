@@ -13,8 +13,10 @@ import (
 )
 
 const (
-	oldSearch1 = `http://search.ccgp.gov.cn/oldsearch?searchtype=1&page_index=`
-	oldSearch2 = `&bidSort=0&buyerName=&projectId=&pinMu=0&bidType=0&dbselect=bidx&kw=&start_time=2001%3A10%3A10&end_time=2012%3A12%3A31&timeType=6&displayZone=&zoneId=&agentName=`
+	searchUrlOld1 = `http://search.ccgp.gov.cn/oldsearch?searchtype=1&page_index=`
+	searchUrlOld2 = `&bidSort=0&buyerName=&projectId=&pinMu=0&bidType=0&dbselect=bidx&kw=&start_time=2001%3A10%3A10&end_time=2012%3A12%3A31&timeType=6&displayZone=&zoneId=&agentName=`
+	searchUrlBx1  = `http://search.ccgp.gov.cn/bxsearch?searchtype=1&page_index=`
+	searchUrlBx2  = `&bidSort=0&buyerName=&projectId=&pinMu=0&bidType=0&dbselect=bidx&kw=&start_time=2013%3A01%3A01&end_time=2017%3A08%3A17&timeType=6&displayZone=&zoneId=&pppStatus=0&agentName=`
 )
 
 var (
@@ -22,6 +24,7 @@ var (
 	end   = flag.Int("end", 3034, "end page number")
 	j     = flag.Int("j", 100, "thread count")
 	out   = flag.String("out", "./data", "output dir")
+	t     = flag.Int("t", 0, "search type: 0 oldsearch, 1 bxsearch")
 )
 
 var (
@@ -81,7 +84,14 @@ func List(pageIdCh chan int, recordCh chan string, wg *sync.WaitGroup, id int) {
 	defer glog.Info("finish worker ", id)
 	defer wg.Done()
 	for i := range pageIdCh {
+<<<<<<< HEAD
 		url := oldSearch1 + fmt.Sprintf("%d", i) + oldSearch2
+=======
+		url := searchUrlOld1 + fmt.Sprintf("%d", i) + searchUrlOld2
+		if *t == 1 {
+			url = searchUrlBx1 + fmt.Sprintf("%d", i) + searchUrlBx2
+		}
+>>>>>>> 6ee0cf50bbc1ee8cebd61c4353632a7e15f2820e
 		glog.Info(url)
 		req := &dl.HttpRequest{Url: url, Method: "GET", UseProxy: false, Platform: "pc"}
 		res := dl.Download(req)
