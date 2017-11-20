@@ -84,14 +84,11 @@ func List(pageIdCh chan int, recordCh chan string, wg *sync.WaitGroup, id int) {
 	defer glog.Info("finish worker ", id)
 	defer wg.Done()
 	for i := range pageIdCh {
-<<<<<<< HEAD
-		url := oldSearch1 + fmt.Sprintf("%d", i) + oldSearch2
-=======
+		//url := oldSearch1 + fmt.Sprintf("%d", i) + oldSearch2
 		url := searchUrlOld1 + fmt.Sprintf("%d", i) + searchUrlOld2
 		if *t == 1 {
 			url = searchUrlBx1 + fmt.Sprintf("%d", i) + searchUrlBx2
 		}
->>>>>>> 6ee0cf50bbc1ee8cebd61c4353632a7e15f2820e
 		glog.Info(url)
 		req := &dl.HttpRequest{Url: url, Method: "GET", UseProxy: false, Platform: "pc"}
 		res := dl.Download(req)
