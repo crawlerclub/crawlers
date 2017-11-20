@@ -82,6 +82,7 @@ func List(pageIdCh chan int, recordCh chan string, wg *sync.WaitGroup, id int) {
 	defer wg.Done()
 	for i := range pageIdCh {
 		url := oldSearch1 + fmt.Sprintf("%d", i) + oldSearch2
+		glog.Info(url)
 		req := &dl.HttpRequest{Url: url, Method: "GET", UseProxy: false, Platform: "pc"}
 		res := dl.Download(req)
 		if res.Error != nil {
@@ -103,7 +104,7 @@ func List(pageIdCh chan int, recordCh chan string, wg *sync.WaitGroup, id int) {
 					continue
 				}
 				Detail(u, recordCh)
-				time.Sleep(10 * time.Second)
+				time.Sleep(5 * time.Second)
 			}
 		}
 	}
