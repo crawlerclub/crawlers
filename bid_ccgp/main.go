@@ -8,13 +8,15 @@ import (
 	"github.com/golang/glog"
 	"github.com/liuzl/filestore"
 	"regexp"
+	"strconv"
+	"strings"
 	"sync"
 	"time"
 )
 
 const (
 	searchUrlOld1 = `http://search.ccgp.gov.cn/oldsearch?searchtype=1&page_index=`
-	searchUrlOld2 = `&bidSort=0&buyerName=&projectId=&pinMu=0&bidType=0&dbselect=bidx&kw=&start_time=2001%3A10%3A10&end_time=2012%3A12%3A31&timeType=6&displayZone=&zoneId=&agentName=`
+	searchUrlOld2 = `&bidSort=0&buyerName=&projectId=&pinMu=0&bidType=0&dbselect=bidx&kw=&start_time=%d%%3A01%%3A01&end_time=%d%%3A12%%3A31&timeType=6&displayZone=&zoneId=&agentName=`
 	searchUrlBx1  = `http://search.ccgp.gov.cn/bxsearch?searchtype=1&page_index=`
 	searchUrlBx2  = `&bidSort=0&buyerName=&projectId=&pinMu=0&bidType=0&dbselect=bidx&kw=&start_time=2013%3A01%3A01&end_time=2017%3A08%3A17&timeType=6&displayZone=&zoneId=&pppStatus=0&agentName=`
 )
@@ -43,15 +45,15 @@ func main() {
 		glog.Error("thread count must be between 1 and 1000")
 		return
 	}
-	pageIdCh := make(chan int)
+	urlCh := make(chan string)
 	recordCh := make(chan string)
 	exitCh := make(chan int)
-	go Dispatch(pageIdCh, *start, *end)
+	go Dispatch(urlCh, *t)
 	go SaveRecord(recordCh, exitCh)
 	var wg sync.WaitGroup
 	for i := 0; i < *j; i++ {
 		wg.Add(1)
-		go List(pageIdCh, recordCh, &wg, i)
+		go List(urlCh, recordCh, &wg, i)
 	}
 	wg.Wait()
 	close(recordCh)
@@ -59,11 +61,73 @@ func main() {
 	glog.Info("Done!")
 }
 
-func Dispatch(pageIdCh chan int, start, end int) {
-	for i := start; i <= end; i++ {
-		pageIdCh <- i
+func getTotalPages(url string) int {
+	req := &dl.HttpRequest{Url: url, Method: "GET", UseProxy: true, Platform: "pc", Retry: 6,
+		ValidFuncs: []func(resp *dl.HttpResponse) bool{func(resp *dl.HttpResponse) bool {
+			if strings.Contains(resp.Text, "国家级政府采购专业网站") {
+				return true
+			}
+			return false
+		}}}
+	res := dl.Download(req)
+	if res.Error != nil {
+		glog.Error(res.Error)
+		glog.Error("failed to get page nums")
+		glog.Error(url)
+		return -1
+	} else {
+		re := regexp.MustCompile(`size:\s*(\d+),`)
+		ret := re.FindAllStringSubmatch(res.Text, -1)
+		if len(ret) <= 0 || len(ret[0]) <= 1 {
+			glog.Error("failed to parse page nums")
+			glog.Error(url)
+			return -1
+		}
+		pageNum, err := strconv.Atoi(ret[0][1])
+		if err != nil {
+			glog.Error("failed to parse page nums")
+			glog.Error(url)
+			return -1
+		}
+		return pageNum
 	}
-	close(pageIdCh)
+
+}
+
+func getUrl(year, page, t int) string {
+	var url string
+	if t == 1 {
+		url = searchUrlBx1 + fmt.Sprintf("%d", page) + searchUrlBx2
+	} else {
+		url = searchUrlOld1 + fmt.Sprintf("%d", page) + fmt.Sprintf(searchUrlOld2, year, year)
+	}
+	return url
+}
+
+func Dispatch(urlCh chan string, t int) {
+	var years []int
+	if t == 1 {
+		// don't need year when t=1
+		years = append(years, 2017)
+	} else {
+		for year := 2001; year <= 2012; year++ {
+			years = append(years, year)
+		}
+	}
+	for _, year := range years {
+		initUrl := getUrl(year, 1, t)
+		pageNum := getTotalPages(initUrl)
+		glog.Info(fmt.Sprintf("get total page of url: %s, %d pages", initUrl, pageNum))
+		if pageNum <= 0 {
+			glog.Error(fmt.Sprintf("failed to get total page of year: %d", year))
+			continue
+		}
+		for i := 0; i <= pageNum; i++ {
+			url := getUrl(year, i, t)
+			urlCh <- url
+		}
+	}
+	close(urlCh)
 }
 
 func SaveRecord(recordCh chan string, exitCh chan int) {
@@ -79,18 +143,20 @@ func SaveRecord(recordCh chan string, exitCh chan int) {
 	exitCh <- 0
 }
 
-func List(pageIdCh chan int, recordCh chan string, wg *sync.WaitGroup, id int) {
+func List(urlCh, recordCh chan string, wg *sync.WaitGroup, id int) {
 	glog.Info("start worker ", id)
 	defer glog.Info("finish worker ", id)
 	defer wg.Done()
-	for i := range pageIdCh {
+	for url := range urlCh {
 		//url := oldSearch1 + fmt.Sprintf("%d", i) + oldSearch2
-		url := searchUrlOld1 + fmt.Sprintf("%d", i) + searchUrlOld2
-		if *t == 1 {
-			url = searchUrlBx1 + fmt.Sprintf("%d", i) + searchUrlBx2
-		}
 		glog.Info(url)
-		req := &dl.HttpRequest{Url: url, Method: "GET", UseProxy: false, Platform: "pc"}
+		req := &dl.HttpRequest{Url: url, Method: "GET", UseProxy: true, Platform: "pc", Retry: 6,
+			ValidFuncs: []func(resp *dl.HttpResponse) bool{func(resp *dl.HttpResponse) bool {
+				if strings.Contains(resp.Text, "国家级政府采购专业网站") {
+					return true
+				}
+				return false
+			}}}
 		res := dl.Download(req)
 		if res.Error != nil {
 			glog.Error(res.Error)
@@ -118,7 +184,13 @@ func List(pageIdCh chan int, recordCh chan string, wg *sync.WaitGroup, id int) {
 }
 
 func Detail(url string, recordCh chan string) {
-	req := &dl.HttpRequest{Url: url, Method: "GET", UseProxy: false, Platform: "pc"}
+	req := &dl.HttpRequest{Url: url, Method: "GET", UseProxy: true, Platform: "pc", Retry: 6,
+		ValidFuncs: []func(resp *dl.HttpResponse) bool{func(resp *dl.HttpResponse) bool {
+			if strings.Contains(resp.Text, "国家级政府采购专业网站") {
+				return true
+			}
+			return false
+		}}}
 	res := dl.Download(req)
 	if res.Error != nil {
 		glog.Error(res.Error)
