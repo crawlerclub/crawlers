@@ -62,7 +62,7 @@ func main() {
 }
 
 func getTotalPages(url string) int {
-	req := &dl.HttpRequest{Url: url, Method: "GET", UseProxy: true, Platform: "pc", Retry: 6,
+	req := &dl.HttpRequest{Url: url, Method: "GET", UseProxy: true, Platform: "pc", Retry: 20,
 		ValidFuncs: []func(resp *dl.HttpResponse) bool{func(resp *dl.HttpResponse) bool {
 			if strings.Contains(resp.Text, "国家级政府采购专业网站") {
 				return true
@@ -76,7 +76,8 @@ func getTotalPages(url string) int {
 		glog.Error(url)
 		return -1
 	} else {
-		re := regexp.MustCompile(`size:\s*(\d+),`)
+		//re := regexp.MustCompile(`size:\s*(\d+),`)
+		re := regexp.MustCompile(`Pager\({\r\n\s*size:\s*(\d+),`)
 		ret := re.FindAllStringSubmatch(res.Text, -1)
 		if len(ret) <= 0 || len(ret[0]) <= 1 {
 			glog.Error("failed to parse page nums")
@@ -150,7 +151,7 @@ func List(urlCh, recordCh chan string, wg *sync.WaitGroup, id int) {
 	for url := range urlCh {
 		//url := oldSearch1 + fmt.Sprintf("%d", i) + oldSearch2
 		glog.Info(url)
-		req := &dl.HttpRequest{Url: url, Method: "GET", UseProxy: true, Platform: "pc", Retry: 6,
+		req := &dl.HttpRequest{Url: url, Method: "GET", UseProxy: true, Platform: "pc", Retry: 10,
 			ValidFuncs: []func(resp *dl.HttpResponse) bool{func(resp *dl.HttpResponse) bool {
 				if strings.Contains(resp.Text, "国家级政府采购专业网站") {
 					return true
@@ -184,7 +185,7 @@ func List(urlCh, recordCh chan string, wg *sync.WaitGroup, id int) {
 }
 
 func Detail(url string, recordCh chan string) {
-	req := &dl.HttpRequest{Url: url, Method: "GET", UseProxy: true, Platform: "pc", Retry: 6,
+	req := &dl.HttpRequest{Url: url, Method: "GET", UseProxy: true, Platform: "pc", Retry: 10,
 		ValidFuncs: []func(resp *dl.HttpResponse) bool{func(resp *dl.HttpResponse) bool {
 			if strings.Contains(resp.Text, "国家级政府采购专业网站") {
 				return true
