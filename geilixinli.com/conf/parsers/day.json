@@ -1,0 +1,15 @@
+{
+  "name": "day",
+  "example_url": "http://www.geilixinli.com/wt/2019/1211",
+  "default_fields": true,
+  "rules": {
+    "root": [
+      {
+        "type": "url",
+        "key": "session",
+        "xpath": "//a[@class='home-grey']"
+      }
+    ]
+  },
+  "js": ""
+}

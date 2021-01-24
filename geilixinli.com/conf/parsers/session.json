@@ -1,0 +1,83 @@
+{
+  "name": "session",
+  "example_url": "http://www.geilixinli.com/question/20649778.html",
+  "default_fields": true,
+  "rules": {
+    "root": [
+      {
+        "type": "text",
+        "key": "title",
+        "xpath": "//h1"
+      },
+      {
+        "type": "dom",
+        "key": "user",
+        "xpath": "//div[@class='q_user_img']"
+      },
+      {
+        "type": "dom",
+        "key": "ask",
+        "xpath": "//div[contains(@class,'d_left')]//span"
+      },
+      {
+        "type": "dom",
+        "key": "reply",
+        "xpath": "//div[contains(@class,'d_right')]"
+      }
+    ],
+    "user": [
+      {
+        "type": "text",
+        "key": "name",
+        "xpath": "./font/text()"
+      },
+      {
+        "type": "text",
+        "key": "avater",
+        "xpath": "./img/@src"
+      },
+      {
+        "type": "text",
+        "key": "time",
+        "xpath": "./text()"
+      }
+    ],
+    "ask": [
+      {
+        "type": "text",
+        "key": "time",
+        "xpath": "./font/text()",
+        "js": "function process(s){return s.substr(0, s.indexOf(\"：\"));}"
+      },
+      {
+        "type": "text",
+        "key": "message",
+        "xpath": "./text()"
+      }
+    ],
+    "reply": [
+      {
+        "type": "text",
+        "key": "time",
+        "xpath": "./span/font/text()",
+        "js": "function process(s){return s.substr(0, s.indexOf(\"：\"));}"
+      },
+      {
+        "type": "text",
+        "key": "message",
+        "xpath": "./span/text()"
+      },
+      {
+        "type": "text",
+        "key": "avater",
+        "xpath": "./a/img/@src"
+      },
+      {
+        "type": "text",
+        "key": "user",
+        "xpath": "./a/@href"
+      }
+    ]
+  },
+  "js": ""
+}

@@ -1,0 +1,15 @@
+{
+  "name": "wt",
+  "example_url": "http://www.geilixinli.com/wt",
+  "default_fields": true,
+  "rules": {
+    "root": [
+      {
+        "type": "url",
+        "key": "year",
+        "xpath": "//a[@class='home-grey']"
+      }
+    ]
+  },
+  "js": ""
+}

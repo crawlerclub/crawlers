@@ -1,0 +1,15 @@
+{
+  "name": "year",
+  "example_url": "http://www.geilixinli.com/wt/2019",
+  "default_fields": true,
+  "rules": {
+    "root": [
+      {
+        "type": "url",
+        "key": "day",
+        "xpath": "//a[@class='home-grey']"
+      }
+    ]
+  },
+  "js": ""
+}
