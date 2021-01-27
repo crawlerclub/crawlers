@@ -4,7 +4,7 @@ db = LSM("questions.ldb")
 fail = 0
 #for i in range(1, 100000):
 #for i in range(100000, 200000):
-for i in range(302000, 402000):
+for i in range(602000, 639317):
     if i not in db:
         url = "https://www.ydl.com/ask/%d" % i
         print(url)
