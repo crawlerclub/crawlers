@@ -1,0 +1,87 @@
+{
+  "name": "ydl",
+  "example_url": "https://www.ydl.com/ask/12123",
+  "default_fields": true,
+  "rules": {
+    "root": [
+      {
+        "type": "text",
+        "key": "question",
+        "xpath": "//meta[@name='keywords']/@content"
+      },
+      {
+        "type": "text",
+        "key": "description",
+        "xpath": "//article//p"
+      },
+      {
+        "type": "text",
+        "key": "tag1",
+        "xpath": "//article/div[@class='content']/div[@class='tags']"
+      },
+      {
+        "type": "text",
+        "key": "tag2",
+        "xpath": "//article/div[@class='info']/div[@class='tags']"
+      },
+      {
+        "type": "text",
+        "key": "name",
+        "xpath": "//article/div[@class='content']/div[@class='info']/font"
+      },
+      {
+        "type": "text",
+        "key": "time",
+        "xpath": "//article/div[@class='content']/div[@class='info']/time"
+      },
+      {
+        "type": "text",
+        "key": "pv",
+        "xpath": "//article/div[@class='info']/time"
+      },
+      {
+        "type": "dom",
+        "key": "answers",
+        "xpath": "//div[contains(@class,'answer_list_item')]"
+      },
+      {
+        "type": "text",
+        "key": "has_best",
+        "xpath": "//div[text()='最佳答案']"
+      }
+    ],
+    "answers": [
+      {
+        "type": "text",
+        "key": "content",
+        "xpath": ".//p"
+      },
+      {
+        "type": "text",
+        "key": "avater",
+        "xpath": ".//img/@src"
+      },
+      {
+        "type": "text",
+        "key": "user",
+        "xpath": "a/@href"
+      },
+      {
+        "type": "text",
+        "key": "name",
+        "xpath": "//strong"
+      },
+      {
+        "type": "text",
+        "key": "type",
+        "xpath": ".//span"
+      },
+      {
+        "type": "text",
+        "key": "time",
+        "xpath": ".//time"
+      }
+    ]
+  },
+  "js": ""
+}
