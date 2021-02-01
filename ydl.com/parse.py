@@ -14,7 +14,7 @@ def main():
     cnt = 0
     for i in tqdm(range(1, 639317)):
         if i not in db:
-            non.write("%d\n")
+            non.write("%d\n" % i)
             continue
         page = db[i]
         if page != b'404':
