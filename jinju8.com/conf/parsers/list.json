@@ -1,0 +1,15 @@
+{
+  "name": "list",
+  "example_url": "https://www.jinju8.com/moreStar.php",
+  "default_fields": true,
+  "rules": {
+    "root": [
+      {
+        "type": "url",
+        "key": "star",
+        "xpath": "//a[contains(@href,'/star/')]"
+      }
+    ]
+  },
+  "js": ""
+}
