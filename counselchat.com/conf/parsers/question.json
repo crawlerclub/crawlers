@@ -18,6 +18,60 @@
         "type": "text",
         "key": "description",
         "xpath": "//div[@class='page-description']/p"
+      },
+      {
+        "type": "dom",
+        "key": "answer",
+        "xpath": "//div[contains(@class,'item-answer')]"
+      }
+    ],
+    "answer": [
+      {
+        "type": "dom",
+        "key": "therapist",
+        "xpath": "div[@class='therapist-summary']"
+      },
+      {
+        "type": "text",
+        "key": "description",
+        "xpath": "div[@class='description']"
+      },
+      {
+        "type": "text",
+        "key": "link",
+        "xpath": ".//a[contains(@href,'/answers/')]/@href"
+      },
+      {
+        "type": "text",
+        "key": "upvote",
+        "xpath": ".//a[contains(@ng-init,'voteCount = ')]/@ng-init"
+      },
+      {
+        "type": "text",
+        "key": "views",
+        "xpath": ".//span[contains(text(),'views')]"
+      }
+    ],
+    "therapist": [
+      {
+        "type": "text",
+        "key": "photo",
+        "xpath": ".//img/@src"
+      },
+      {
+        "type": "text",
+        "key": "name",
+        "xpath": "//a[@class='name']"
+      },
+      {
+        "type": "text",
+        "key": "title",
+        "xpath": "//div[@class='title']"
+      },
+      {
+        "type": "text",
+        "key": "link",
+        "xpath": "//a[@class='name']/@ng-href"
       }
     ]
   },
