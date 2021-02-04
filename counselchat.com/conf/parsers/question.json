@@ -1,0 +1,25 @@
+{
+  "name": "question",
+  "example_url": "https://counselchat.com/questions/i-think-my-daughter-is-stressing-too-much",
+  "default_fields": true,
+  "rules": {
+    "root": [
+      {
+        "type": "text",
+        "key": "title",
+        "xpath": "//h1"
+      },
+      {
+        "type": "text",
+        "key": "description-pic",
+        "xpath": "//div[@class='description-pic']/img/@src"
+      },
+      {
+        "type": "text",
+        "key": "description",
+        "xpath": "//div[@class='page-description']/p"
+      }
+    ]
+  },
+  "js": ""
+}

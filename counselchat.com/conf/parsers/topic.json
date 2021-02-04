@@ -8,6 +8,11 @@
         "type": "url",
         "key": "topic",
         "xpath": "//li[@class='active']/following-sibling::li[1]/a"
+      },
+      {
+        "type": "url",
+        "key": "question",
+        "xpath": "//a[contains(@href,'/questions/')]"
       }
     ]
   },
