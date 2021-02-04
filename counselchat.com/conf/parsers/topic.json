@@ -1,0 +1,15 @@
+{
+  "name": "topic",
+  "example_url": "https://counselchat.com/topics/marriage",
+  "default_fields": true,
+  "rules": {
+    "root": [
+      {
+        "type": "url",
+        "key": "topic",
+        "xpath": "//li[@class='active']/following-sibling::li[1]/a"
+      }
+    ]
+  },
+  "js": ""
+}
