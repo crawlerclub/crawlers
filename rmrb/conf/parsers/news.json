@@ -17,6 +17,11 @@
       },
       {
         "type": "text",
+        "key": "author",
+        "xpath": "//p[@class='sec']/text()"
+      },
+      {
+        "type": "text",
         "key": "date",
         "xpath": "//div[@class='article']//span[@class='date']"
       },
