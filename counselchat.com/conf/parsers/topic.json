@@ -12,7 +12,7 @@
       {
         "type": "url",
         "key": "question",
-        "xpath": "//a[contains(@href,'/questions/')]"
+        "xpath": "//h2//a[contains(@href,'/questions/')]"
       }
     ]
   },
