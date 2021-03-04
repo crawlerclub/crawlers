@@ -1,0 +1,36 @@
+{
+  "name": "news",
+  "example_url": "http://paper.people.com.cn/rmrb/html/2021-03/03/nw.D110000renmrb_20210303_1-01.htm",
+  "default_fields": true,
+  "zip_content": false,
+  "rules": {
+    "root": [
+      {
+        "type": "text",
+        "key": "title",
+        "xpath": "//div[@class='article']/h1"
+      },
+      {
+        "type": "text",
+        "key": "sub_title",
+        "xpath": "//div[@class='article']/h2"
+      },
+      {
+        "type": "text",
+        "key": "date",
+        "xpath": "//div[@class='article']//span[@class='date']"
+      },
+      {
+        "type": "html",
+        "key": "html",
+        "xpath": "//div[@id='ozoom']"
+      },
+      {
+        "type": "text",
+        "key": "content",
+        "xpath": "//div[@id='ozoom']"
+      }
+    ]
+  },
+  "js": ""
+}
