@@ -1,0 +1,15 @@
+{
+  "name": "day",
+  "example_url": "http://paper.people.com.cn/rmrb/html/2020-02/23/nbs.D110000renmrb_01.htm",
+  "default_fields": true,
+  "rules": {
+    "root": [
+      {
+        "type": "url",
+        "key": "section",
+        "xpath": "//a[@id='pageLink']"
+      }
+    ]
+  },
+  "js": ""
+}
