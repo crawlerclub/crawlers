@@ -1,8 +1,8 @@
 {
   "name": "news",
-  "example_url": "http://paper.people.com.cn/rmrb/html/2020-02/23/nw.D110000renmrb_20200223_5-01.htm",
+  "example_url": "http://paper.people.com.cn/rmrb/html/2021-03/03/nw.D110000renmrb_20210303_1-01.htm",
   "default_fields": true,
-  "zip_content": true,
+  "zip_content": false,
   "rules": {
     "root": [
       {
@@ -18,12 +18,12 @@
       {
         "type": "text",
         "key": "author",
-        "xpath": "//h4"
+        "xpath": "//p[@class='sec']/text()"
       },
       {
         "type": "text",
         "key": "date",
-        "xpath": "//div[@class='lai']"
+        "xpath": "//div[@class='article']//span[@class='date']"
       },
       {
         "type": "text",

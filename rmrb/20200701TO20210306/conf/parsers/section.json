@@ -1,19 +1,18 @@
 {
   "name": "section",
-  "example_url": "http://paper.people.com.cn/rmrb/html/2020-02/23/nbs.D110000renmrb_01.htm",
+  "example_url": "http://paper.people.com.cn/rmrb/html/2021-03/03/nbs.D110000renmrb_01.htm",
   "default_fields": true,
-  "zip_content": true,
   "rules": {
     "root": [
       {
         "type": "url",
         "key": "news",
-        "xpath": "//div[@id='titleList']//a"
+        "xpath": "//ul[@class='news-list']//a"
       },
       {
         "type": "url",
         "key": "raw_",
-        "xpath": "//div[@class='ban_t']//li/a"
+        "xpath": "//a[contains(text(),'PDF下载')]"
       }
     ]
   },
