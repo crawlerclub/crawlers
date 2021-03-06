@@ -2,6 +2,7 @@
   "name": "section",
   "example_url": "http://paper.people.com.cn/rmrb/html/2021-03/03/nbs.D110000renmrb_01.htm",
   "default_fields": true,
+  "zip_content": true,
   "rules": {
     "root": [
       {
