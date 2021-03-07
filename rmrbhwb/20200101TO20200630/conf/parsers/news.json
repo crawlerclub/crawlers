@@ -1,0 +1,36 @@
+{
+  "name": "news",
+  "example_url": "http://paper.people.com.cn/rmrbhwb/html/2020-06/30/content_1994577.htm",
+  "default_fields": true,
+  "zip_content": true,
+  "rules": {
+    "root": [
+      {
+        "type": "text",
+        "key": "title",
+        "xpath": "//h1"
+      },
+      {
+        "type": "text",
+        "key": "sub_title",
+        "xpath": "//h2"
+      },
+      {
+        "type": "text",
+        "key": "author",
+        "xpath": "//h4"
+      },
+      {
+        "type": "text",
+        "key": "date",
+        "xpath": "//div[@class='lai']"
+      },
+      {
+        "type": "text",
+        "key": "content",
+        "xpath": "//div[@id='ozoom']"
+      }
+    ]
+  },
+  "js": ""
+}

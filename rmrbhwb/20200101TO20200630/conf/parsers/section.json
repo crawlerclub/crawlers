@@ -1,0 +1,21 @@
+{
+  "name": "section",
+  "example_url": "http://paper.people.com.cn/rmrbhwb/html/2020-06/30/node_865.htm",
+  "default_fields": true,
+  "zip_content": true,
+  "rules": {
+    "root": [
+      {
+        "type": "url",
+        "key": "news",
+        "xpath": "//div[@id='titleList']//a"
+      },
+      {
+        "type": "url",
+        "key": "raw_",
+        "xpath": "//div[@class='ban_t']//li[@class='one']/a"
+      }
+    ]
+  },
+  "js": ""
+}
