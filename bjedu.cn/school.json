@@ -1,0 +1,25 @@
+{
+  "name": "school",
+  "example_url": "https://yjrx.bjedu.cn/portal_hd/primary/101648.htm",
+  "default_fields": true,
+  "rules": {
+    "root": [
+      {
+        "type": "text",
+        "key": "name",
+        "xpath": "//h2"
+      },
+      {
+        "type": "text",
+        "key": "date",
+        "xpath": "//span[@class='date']"
+      },
+      {
+        "type": "text",
+        "key": "content",
+        "xpath": "//div[@class='article']"
+      }
+    ]
+  },
+  "js": ""
+}
