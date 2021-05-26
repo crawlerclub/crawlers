@@ -1,0 +1,15 @@
+{
+  "name": "708",
+  "example_url": "http://www.cic.cn/708/index.jhtml",
+  "default_fields": true,
+  "rules": {
+    "root": [
+      {
+        "type": "url",
+        "key": "content_",
+        "xpath": "//h3/a"
+      }
+    ]
+  },
+  "js": ""
+}

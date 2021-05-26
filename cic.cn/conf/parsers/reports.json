@@ -1,0 +1,15 @@
+{
+  "name": "reports",
+  "example_url": "http://www.cic.cn/mediaReports/index.jhtml",
+  "default_fields": true,
+  "rules": {
+    "root": [
+      {
+        "type": "url",
+        "key": "content_",
+        "xpath": "//h3/a"
+      }
+    ]
+  },
+  "js": ""
+}

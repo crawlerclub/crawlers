@@ -1,0 +1,15 @@
+{
+  "name": "news",
+  "example_url": "http://www.cic.cn/companyNews/index.jhtml",
+  "default_fields": true,
+  "rules": {
+    "root": [
+      {
+        "type": "url",
+        "key": "content_",
+        "xpath": "//h3/a"
+      }
+    ]
+  },
+  "js": ""
+}

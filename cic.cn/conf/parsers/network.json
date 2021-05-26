@@ -1,0 +1,32 @@
+{
+  "name": "network",
+  "example_url": "http://www.cic.cn/network/index_1.jhtml",
+  "default_fields": true,
+  "rules": {
+    "root": [
+      {
+        "type": "dom",
+        "key": "company",
+        "xpath": "//tr[@class='contentlist']"
+      }
+    ],
+    "company": [
+      {
+        "type": "text",
+        "key": "name",
+        "xpath": "td[1]"
+      },
+      {
+        "type": "text",
+        "key": "address",
+        "xpath": "td[2]"
+      },
+      {
+        "type": "text",
+        "key": "phone",
+        "xpath": "td[3]"
+      }
+    ]
+  },
+  "js": ""
+}
