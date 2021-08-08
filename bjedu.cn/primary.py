@@ -1,5 +1,7 @@
 import requests
 import json
+import sys
+sys.path.append(".")
 import et
 
 out = open("content.txt", "w")
